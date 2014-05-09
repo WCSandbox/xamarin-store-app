@@ -1,15 +1,12 @@
-﻿using System;
-using MonoTouch.UIKit;
-using MonoTouch.Foundation;
+﻿using MonoTouch.UIKit;
 using System.Collections.Generic;
 using System.Linq;
-using System.Drawing;
 
 namespace XamarinStore
 {
 	public class AutoCompleteTextEntry : TextEntryView
 	{
-		StringTableViewController controller;
+	    readonly StringTableViewController controller;
 		public string Title { get; set; }
 		public AutoCompleteTextEntry ()
 		{
@@ -20,9 +17,7 @@ namespace XamarinStore
 			};
 			
 
-			textField.Started += (object sender, EventArgs e) => {
-				Search ();
-			};
+			textField.Started += delegate { Search(); };
 		}
 
 		IEnumerable<string> items = new List<string>();
@@ -38,7 +33,7 @@ namespace XamarinStore
 
 		void Search ()
 		{
-			if (items.Count() == 0)
+			if (!items.Any())
 				return;
 
 			textField.ResignFirstResponder();

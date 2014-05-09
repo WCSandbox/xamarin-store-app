@@ -1,5 +1,4 @@
-﻿using System;
-using MonoTouch.UIKit;
+﻿using MonoTouch.UIKit;
 using System.Threading.Tasks;
 using MonoTouch.CoreGraphics;
 using System.Drawing;

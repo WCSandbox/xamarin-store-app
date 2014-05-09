@@ -9,10 +9,7 @@ namespace XamarinStore
 	public class StringUIPicker : UIPickerView
 	{
 		public event EventHandler SelectedItemChanged;
-		public StringUIPicker ()
-		{
-		}
-		string[] items;
+	    string[] items;
 		public IEnumerable<string> Items
 		{
 			get{ return items; }
@@ -56,7 +53,7 @@ namespace XamarinStore
 			sheet.AddSubview(this);
 
 			var toolbarPicker = new UIToolbar (new RectangleF (0, 0, viewForPicker.Frame.Width, 44)) {
-				Items = new UIBarButtonItem[] {
+				Items = new[] {
 					new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace), 
 					new UIBarButtonItem (UIBarButtonSystemItem.Done, (sender, args) => sheet.DismissWithClickedButtonIndex (0, true)), 
 				},
@@ -67,7 +64,7 @@ namespace XamarinStore
 
 			sheet.BackgroundColor = UIColor.Clear;
 			sheet.ShowInView(viewForPicker);
-			UIView.Animate(.25, () => sheet.Bounds = new RectangleF (0, 0, viewForPicker.Frame.Width, 485));
+			Animate(.25, () => sheet.Bounds = new RectangleF (0, 0, viewForPicker.Frame.Width, 485));
 
 		}
 

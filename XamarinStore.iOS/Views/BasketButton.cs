@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MonoTouch.UIKit;
-using System.Threading.Tasks;
-using MonoTouch.CoreGraphics;
 using MonoTouch.CoreAnimation;
-using System.Drawing;
 using MonoTouch.Foundation;
 
 namespace XamarinStore
@@ -22,13 +16,13 @@ namespace XamarinStore
 			imageView = new UIImageView(BasketImage.Value.ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)){
 				TintColor = UIColor.White,
 			};
-			this.AddSubview(imageView);
+			AddSubview(imageView);
 
 			badge = new BadgeView(){
 
 				Frame =  new System.Drawing.RectangleF (20,5,0,0)
 			};
-			this.AddSubview(badge);
+			AddSubview(badge);
 		}
 		public int ItemsCount
 		{

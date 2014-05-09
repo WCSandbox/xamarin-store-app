@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using MonoTouch.CoreGraphics;
 using MonoTouch.UIKit;
 
 namespace XamarinStore

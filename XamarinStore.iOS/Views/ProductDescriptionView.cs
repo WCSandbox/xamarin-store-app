@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MonoTouch.UIKit;
+﻿using MonoTouch.UIKit;
 
 namespace XamarinStore
 {
@@ -15,7 +11,7 @@ namespace XamarinStore
 		const float priceWidth = 50f;
 		public ProductDescriptionView(Product product) : this()
 		{
-			this.Update(product);
+			Update(product);
 		}
 		public ProductDescriptionView ()
 		{
@@ -41,7 +37,7 @@ namespace XamarinStore
 					LineBreakMode = UILineBreakMode.WordWrap,
 					Lines = 0
 				};
-			this.AddSubview(DescriptionLabel);
+			AddSubview(DescriptionLabel);
 
 			Price = new UILabel
 				{
@@ -51,7 +47,7 @@ namespace XamarinStore
 					TranslatesAutoresizingMaskIntoConstraints = false,
 				};
 			Price.SizeToFit();
-			this.AddSubview(Price);
+			AddSubview(Price);
 		}
 		public void Update(Product product)
 		{

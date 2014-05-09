@@ -14,16 +14,16 @@ namespace XamarinStore
 		{
 			PagingEnabled = true;
 			ShowsHorizontalScrollIndicator = false;
-			this.Scrolled += (object sender, EventArgs e) => {
+			Scrolled += (sender, e) => {
 				Scrolling ();
 			};
-			this.ScrollAnimationEnded += (object sender, EventArgs e) => {
+			ScrollAnimationEnded += (sender, e) => {
 				isAnimating = false;
 				Scrolling ();
 			};
 		}
 
-		List<UIImageView> imageViews = new List<UIImageView> ();
+	    readonly List<UIImageView> imageViews = new List<UIImageView> ();
 		UIImage[] images = new UIImage[0];
 		public IEnumerable<UIImage> Images
 		{
@@ -41,14 +41,14 @@ namespace XamarinStore
 			imageViews.Clear ();
 
 			var frame = this.Bounds;
-			foreach (var image in images) {
-				var imageView = new UIImageView (image) {
-					ContentMode = UIViewContentMode.ScaleAspectFit,
-					Frame = frame,
-				};
-				this.AddSubview (imageView);
-				imageViews.Add (imageView);
-				frame.X += frame.Width;
+			foreach (var imageView in images.Select(image => new UIImageView (image) {
+			    ContentMode = UIViewContentMode.ScaleAspectFit,
+			    Frame = frame,
+			}))
+			{
+			    AddSubview (imageView);
+			    imageViews.Add (imageView);
+			    frame.X += frame.Width;
 			}
 			ScrollToImage (CurrentIndex);
 		}
@@ -75,7 +75,7 @@ namespace XamarinStore
 				return;
 			isAnimating = true;
 			var imageView = imageViews [index];
-			this.ScrollRectToVisible (imageView.Frame, true);
+			ScrollRectToVisible (imageView.Frame, true);
 
 		}
 
@@ -105,7 +105,7 @@ namespace XamarinStore
 		{
 			if (isAnimating)
 				return;
-			var page = imageViews.Where (x=> x.Frame.Contains(this.ContentOffset)).FirstOrDefault ();
+			var page = imageViews.FirstOrDefault(x => x.Frame.Contains(this.ContentOffset));
 			var pageIndex = Math.Max(imageViews.IndexOf (page),0);
 			if (ImageChanged != null && pageIndex != CurrentIndex)
 				ImageChanged (pageIndex);

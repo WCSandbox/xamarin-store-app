@@ -1,5 +1,4 @@
-﻿using System;
-using MonoTouch.UIKit;
+﻿using MonoTouch.UIKit;
 
 namespace XamarinStore
 {
@@ -8,11 +7,11 @@ namespace XamarinStore
 		public static UIViewController GetParentViewController(this UIView view)
 		{
 			var nextResponder = view.NextResponder;
-			if (nextResponder is UIViewController)
-				return (UIViewController)nextResponder;
-			else if (nextResponder is UIView)
-				return GetParentViewController ((UIView)nextResponder);
-			return null;
+		    var responder = nextResponder as UIViewController;
+		    if (responder != null)
+				return responder;
+		    var uiView = nextResponder as UIView;
+		    return uiView != null ? GetParentViewController (uiView) : null;
 		}
 	}
 }

@@ -6,7 +6,6 @@ using MonoTouch.UIKit;
 using System.Drawing;
 
 using System.Threading.Tasks;
-using MonoTouch.CoreGraphics;
 using MonoTouch.CoreAnimation;
 
 namespace XamarinStore.iOS
@@ -15,14 +14,14 @@ namespace XamarinStore.iOS
 	{
 		public event Action<Product> AddToBasket = delegate {};
 
-		Product CurrentProduct;
+	    readonly Product CurrentProduct;
 
 		ProductSize[] sizeOptions;
-		BottomButtonView BottomView;
+	    readonly BottomButtonView BottomView;
 		ProductColor[] colorOptions;
 		StringSelectionCell colorCell, sizeCell;
 		JBKenBurnsView imageView;
-		UIImage tshirtIcon;
+	    readonly UIImage tshirtIcon;
 		public ProductDetailViewController (Product product)
 		{
 			CurrentProduct = product;
@@ -69,7 +68,7 @@ namespace XamarinStore.iOS
 			var size = view.Frame.Size;
 			var grow = new SizeF(size.Width * 1.7f, size.Height * 1.7f);
 			var shrink = new SizeF(size.Width * .4f, size.Height * .4f);
-			TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool> ();
+			var tcs = new TaskCompletionSource<bool> ();
 			//Set the animation path
 			var pathAnimation = CAKeyFrameAnimation.GetFromKeyPath("position");	
 			pathAnimation.CalculationMode = CAAnimation.AnimationPaced;
@@ -77,7 +76,7 @@ namespace XamarinStore.iOS
 			pathAnimation.RemovedOnCompletion = false;
 			pathAnimation.Duration = .5;
 
-			UIBezierPath path = new UIBezierPath ();
+			var path = new UIBezierPath ();
 			path.MoveTo (view.Center);
 			path.AddQuadCurveToPoint (new PointF (290, 34), new PointF(view.Center.X,View.Center.Y));
 			pathAnimation.Path = path.CGPath;
@@ -99,7 +98,7 @@ namespace XamarinStore.iOS
 			shrinkAnimation.BeginTime = .1;
 
 
-			CAAnimationGroup animations = new CAAnimationGroup ();
+			var animations = new CAAnimationGroup ();
 			animations.FillMode = CAFillMode.Forwards;
 			animations.RemovedOnCompletion = false;
 			animations.Animations = new CAAnimation[] {
@@ -108,11 +107,9 @@ namespace XamarinStore.iOS
 				shrinkAnimation,
 			};
 			animations.Duration = .5;
-			animations.AnimationStopped += (sender, e) => {
-				tcs.TrySetResult(true);
-			};
+			animations.AnimationStopped += (sender, e) => tcs.TrySetResult(true);
 			view.Layer.AddAnimation (animations,"movetocart");
-			NSTimer.CreateScheduledTimer (.5, () => view.RemoveFromSuperview ());
+			NSTimer.CreateScheduledTimer (.5, view.RemoveFromSuperview);
 			await tcs.Task;
 
 		}
@@ -203,7 +200,7 @@ namespace XamarinStore.iOS
 
 	public class ProductDetailPageSource : UITableViewSource
 	{
-		UITableViewCell[] tableItems;
+	    readonly UITableViewCell[] tableItems;
 
 		public ProductDetailPageSource (UITableViewCell[] items)
 		{
@@ -227,8 +224,9 @@ namespace XamarinStore.iOS
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			if (tableItems [indexPath.Row] is StringSelectionCell)
-				((StringSelectionCell)tableItems [indexPath.Row]).Tap ();
+		    var cell = tableItems [indexPath.Row] as StringSelectionCell;
+		    if (cell != null)
+				cell.Tap ();
 
 			tableView.DeselectRow (indexPath, true);
 		}

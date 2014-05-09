@@ -8,7 +8,7 @@ namespace XamarinStore
 	public class StringTableViewController : UITableViewController
 	{
 		public Action<string> ItemSelected = (i)=> {};
-		UISearchBar searchBar;
+	    readonly UISearchBar searchBar;
 		IEnumerable<string> items = new List<string>();
 		IEnumerable<string> filteredItems = new List<string>();
 		TableViewSource source;
@@ -27,7 +27,7 @@ namespace XamarinStore
 				Parent = this,
 			};
 			searchBar = new UISearchBar ();
-			searchBar.TextChanged += (object sender, UISearchBarTextChangedEventArgs e) => {
+			searchBar.TextChanged += (sender, e) => {
 				filteredItems = items.Where(x=> x.IndexOf(searchBar.Text, StringComparison.CurrentCultureIgnoreCase) >= 0).ToList();
 				TableView.ReloadData();
 			};
@@ -57,12 +57,10 @@ namespace XamarinStore
 
 			public override int RowsInSection (UITableView tableview, int section)
 			{
-				if (Parent == null)
-					return 0;
-				return Parent.filteredItems.Count ();
+			    return Parent == null ? 0 : Parent.filteredItems.Count ();
 			}
 
-			public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
+		    public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 			{
 				var cell = tableView.DequeueReusableCell ("stringCell") ?? new UITableViewCell (UITableViewCellStyle.Default, "stringCell");
 				if(Parent != null)

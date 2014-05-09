@@ -1,6 +1,5 @@
 using System;
 using MonoTouch.UIKit;
-using System.Drawing;
 
 namespace XamarinStore
 {
@@ -17,14 +16,14 @@ namespace XamarinStore
 
 		public BottomButtonView()
 		{
-			this.AddSubview(Button = new  ImageButton());
+			AddSubview(Button = new  ImageButton());
 			Button.Layer.BackgroundColor = Color.Green;
 			Button.Layer.CornerRadius = 5f;
 			Button.Font = UIFont.BoldSystemFontOfSize (UIFont.ButtonFontSize);
 			Button.SizeToFit();
 			Button.TouchUpInside += (object sender, EventArgs e) => ButtonTapped();
-			this.TintColor = UIColor.White;
-			this.AccentColorIntensity = 0f;
+			TintColor = UIColor.White;
+			AccentColorIntensity = 0f;
 		}
 		const float padding = 15f;
 		public override void LayoutSubviews ()

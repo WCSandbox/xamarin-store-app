@@ -1,4 +1,3 @@
-using System;
 using MonoTouch.UIKit;
 using System.Drawing;
 using MonoTouch.CoreGraphics;
@@ -8,7 +7,7 @@ namespace XamarinStore
 	public class ImageButton : UIControl
 	{
 		public readonly UIImageView ImageView;
-		UILabel label;
+	    readonly UILabel label;
 		public ImageButton () : base(new RectangleF(0,0,250,50))
 		{
 			ImageView = new UIImageView ();
@@ -37,7 +36,7 @@ namespace XamarinStore
 			var imageSize = ImageView.SizeThatFits (Bounds.Size);
 
 			var availableWidth = Bounds.Width - padding * 3 - imageSize.Width;
-			var stringSize = label.SizeThatFits (new System.Drawing.SizeF (availableWidth, Bounds.Height - padding * 2));
+			var stringSize = label.SizeThatFits (new SizeF (availableWidth, Bounds.Height - padding * 2));
 
 			availableWidth = Bounds.Width ;
 			availableWidth -= stringSize.Width;

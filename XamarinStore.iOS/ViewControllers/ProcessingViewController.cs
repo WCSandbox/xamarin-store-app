@@ -19,9 +19,7 @@ namespace XamarinStore.iOS
 		{
 			Title = "Processing";
 			this.user = user;
-			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem (UIBarButtonSystemItem.Cancel, (sender,args) => {
-				this.DismissViewControllerAsync(true);
-			});
+			NavigationItem.RightBarButtonItem = new UIBarButtonItem (UIBarButtonSystemItem.Cancel, (sender,args) => DismissViewControllerAsync(true));
 		}
 		ProcessingView proccessView;
 		public override void LoadView ()
@@ -99,9 +97,9 @@ namespace XamarinStore.iOS
 
 		class ProcessingView : UIView
 		{
-			UIImageView gear;
-			UILabel status;
-			ImageButton tryAgain;
+		    readonly UIImageView gear;
+		    readonly UILabel status;
+		    readonly ImageButton tryAgain;
 			public Action TryAgain;
 			public ProcessingView()
 			{
@@ -155,7 +153,7 @@ namespace XamarinStore.iOS
 			void startGear()
 			{
 				Animate (.6, () => {
-					UIView.SetAnimationCurve (UIViewAnimationCurve.EaseIn);
+					SetAnimationCurve (UIViewAnimationCurve.EaseIn);
 					gear.Transform = GetNextRotation(30);
 				}, spin);
 			}
@@ -166,14 +164,14 @@ namespace XamarinStore.iOS
 					return;
 				}
 				Animate (.2, () => {
-					UIView.SetAnimationCurve (UIViewAnimationCurve.Linear);
+					SetAnimationCurve (UIViewAnimationCurve.Linear);
 					gear.Transform = GetNextRotation(10);
 				}, spin);
 			}
 			void stopGear()
 			{
 				Animate (.6, () => {
-					UIView.SetAnimationCurve (UIViewAnimationCurve.EaseOut);
+					SetAnimationCurve (UIViewAnimationCurve.EaseOut);
 					gear.Transform = GetNextRotation(30);
 				},animationEnded);
 			}
@@ -225,11 +223,11 @@ namespace XamarinStore.iOS
 
 		class SuccessView : UIView
 		{
-			UIImageView Check;
-			UILabel label1;
-			UILabel label2;
-			ImageButton twitter;
-			ImageButton done;
+		    readonly UIImageView Check;
+		    readonly UILabel label1;
+		    readonly UILabel label2;
+		    readonly ImageButton twitter;
+		    readonly ImageButton done;
 			public Action Close { get; set; }
 			public Action Tweet { get; set; }
 			public SuccessView()
@@ -316,11 +314,11 @@ namespace XamarinStore.iOS
 				yOffset = 20;
 				LayoutSubviews ();
 				await AnimateAsync (.1, () => {
-					UIView.SetAnimationCurve(UIViewAnimationCurve.EaseOut);
+					SetAnimationCurve(UIViewAnimationCurve.EaseOut);
 					Check.Alpha = twitter.Alpha = done.Alpha = 1;
 				});
 				Animate(.2,()=>{
-					UIView.SetAnimationCurve(UIViewAnimationCurve.EaseInOut);
+					SetAnimationCurve(UIViewAnimationCurve.EaseInOut);
 					yOffset = 0;
 					LayoutSubviews ();
 					label1.Alpha = label2.Alpha = 1;

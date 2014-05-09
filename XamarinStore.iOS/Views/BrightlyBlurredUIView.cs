@@ -1,4 +1,3 @@
-using System;
 using MonoTouch.UIKit;
 using MonoTouch.CoreAnimation;
 
@@ -6,9 +5,10 @@ namespace XamarinStore
 {
 	public class BrightlyBlurredUIView: UIView
 	{
-		CALayer blurLayer,accentLayer;
-		UIView accentView;
-		UIToolbar toolbar;
+	    readonly CALayer blurLayer;
+	    readonly CALayer accentLayer;
+	    readonly UIView accentView;
+	    readonly UIToolbar toolbar;
 		public BrightlyBlurredUIView()
 		{
 			toolbar = new UIToolbar {

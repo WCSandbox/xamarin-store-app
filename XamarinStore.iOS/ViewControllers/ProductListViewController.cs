@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
 
@@ -11,7 +10,7 @@ namespace XamarinStore.iOS
 	public class ProductListViewController : UITableViewController
 	{
 		const int ProductCellRowHeight = 300;
-		static float ImageWidth = UIScreen.MainScreen.Bounds.Width * UIScreen.MainScreen.Scale;
+		static readonly float ImageWidth = UIScreen.MainScreen.Bounds.Width * UIScreen.MainScreen.Scale;
 
 		public event Action<Product> ProductTapped = delegate {};
 
@@ -25,9 +24,7 @@ namespace XamarinStore.iOS
 			NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
 			TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 			TableView.RowHeight = ProductCellRowHeight;
-			TableView.Source = source = new ProductListViewSource (products => {
-				ProductTapped (products);
-			});
+			TableView.Source = source = new ProductListViewSource (products => ProductTapped (products));
 
 			GetData ();
 		}
@@ -88,10 +85,11 @@ namespace XamarinStore.iOS
 			static readonly SizeF PriceLabelPadding = new SizeF (16, 6);
 			Product product;
 			TopAlignedImageView imageView;
-			UILabel nameLabel, priceLabel;
+		    readonly UILabel nameLabel;
+		    readonly UILabel priceLabel;
 
-			public Product Product {
-				get { return product; }
+		    public Product Product {
+		        private get { return product; }
 				set {
 					product = value;
 

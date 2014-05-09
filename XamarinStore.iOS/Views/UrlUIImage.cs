@@ -1,11 +1,10 @@
-﻿using System;
-using MonoTouch.UIKit;
+﻿using MonoTouch.UIKit;
 
 namespace XamarinStore
 {
 	public class UrlUIImage : UIImageView
 	{
-		UIActivityIndicatorView progress;
+	    readonly UIActivityIndicatorView progress;
 
 		public UrlUIImage ()
 		{
@@ -36,7 +35,7 @@ namespace XamarinStore
 			progress.StartAnimating ();
 			var image = UIImage.FromFile(await t);
 
-			UIView.Animate (.3, 
+			Animate (.3, 
 				() => Image = image,
 				() => progress.StopAnimating ());
 

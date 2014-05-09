@@ -1,4 +1,3 @@
-using System;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 
@@ -11,8 +10,8 @@ namespace XamarinStore
 		public EmptyBasketView ()
 		{
 			BackgroundColor = UIColor.White;
-			this.AddSubview(image = new UIImageView (UIImage.FromBundle ("empty-basket")));
-			this.Add (text = new UILabel {
+			AddSubview(image = new UIImageView (UIImage.FromBundle ("empty-basket")));
+			Add (text = new UILabel {
 				Text = "Your basket is empty",
 				TextColor = UIColor.LightGray,
 				Font = UIFont.BoldSystemFontOfSize(20f),

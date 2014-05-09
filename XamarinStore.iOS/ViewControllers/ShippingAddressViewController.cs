@@ -1,6 +1,5 @@
 using System;
 using MonoTouch.UIKit;
-using BigTed;
 using MonoTouch.Foundation;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,7 +9,7 @@ namespace XamarinStore
 {
 	public class ShippingAddressViewController : UITableViewController
 	{
-		User user;
+	    readonly User user;
 
 		public event EventHandler ShippingComplete;
 
@@ -23,14 +22,14 @@ namespace XamarinStore
 		public readonly AutoCompleteTextEntry StateField;
 		public readonly TextEntryView PostalField;
 		public readonly AutoCompleteTextEntry CountryField;
-		BottomButtonView BottomView;
-		List<UITableViewCell> Cells = new List<UITableViewCell> ();
+	    readonly BottomButtonView BottomView;
+	    readonly List<UITableViewCell> Cells = new List<UITableViewCell> ();
 
 		public ShippingAddressViewController (User user)
 		{
-			this.Title = "Shipping";
+			Title = "Shipping";
 			//This hides the back button text when you leave this View Controller
-			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
+			NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
 			this.user = user;
 			TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 
@@ -124,12 +123,8 @@ namespace XamarinStore
 			if (ShippingComplete != null)
 				ShippingComplete (this, EventArgs.Empty);
 		}
-		public override void ViewWillAppear (bool animated)
-		{
-			base.ViewWillAppear (animated);
-		}
 
-		async void GetCountries ()
+	    async void GetCountries ()
 		{
 			var countries = await WebService.Shared.GetCountries ();
 			CountryField.Items = countries.Select (x => x.Name);
@@ -155,11 +150,7 @@ namespace XamarinStore
 		{
 			public List<UITableViewCell> Cells = new List<UITableViewCell> ();
 
-			public ShippingAddressPageSource ()
-			{
-			}
-
-			public override int RowsInSection (UITableView tableview, int section)
+		    public override int RowsInSection (UITableView tableview, int section)
 			{
 				return Cells.Count;
 			}

@@ -1,5 +1,4 @@
-﻿using System;
-using MonoTouch.UIKit;
+﻿using MonoTouch.UIKit;
 
 namespace XamarinStore
 {

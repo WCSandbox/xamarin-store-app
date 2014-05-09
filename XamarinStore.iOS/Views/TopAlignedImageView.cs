@@ -1,50 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using MonoTouch.UIKit;
-using MonoTouch.Foundation;
 
 namespace XamarinStore
 {
 	public class TopAlignedImageView : UIView
 	{
-		SizeF origionalSize;
+		SizeF _origionalSize;
 		public UIImage Image
 		{
 			get { return image; }
 			set
 			{
-				origionalSize = value == null ? SizeF.Empty : value.Size;
+				_origionalSize = value == null ? SizeF.Empty : value.Size;
 				ImageView.Image = image = value;
 				LayoutSubviews ();
 			}
 		}
 
-		UIImageView ImageView;
+	    readonly UIImageView ImageView;
 		UIImage image;
-		UIActivityIndicatorView progress;
+	    readonly UIActivityIndicatorView progress;
 
 		public TopAlignedImageView()
 		{
-			this.ClipsToBounds = true;
+			ClipsToBounds = true;
 			ImageView = new UIImageView();
 			this.AddSubview(ImageView);
 
 			AddSubview (progress = new UIActivityIndicatorView (UIActivityIndicatorViewStyle.WhiteLarge));
-			this.TranslatesAutoresizingMaskIntoConstraints = false;
+			TranslatesAutoresizingMaskIntoConstraints = false;
 		}
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
 			progress.Center = Center;
-			if (origionalSize == SizeF.Empty) {
+			if (_origionalSize == SizeF.Empty) {
 				return;
 			}
 			var frame = Bounds;
-			var scale = frame.Width/origionalSize.Width ;
-			frame.Height = origionalSize.Height * scale;
+			var scale = frame.Width/_origionalSize.Width ;
+			frame.Height = _origionalSize.Height * scale;
 			ImageView.Frame = frame;
 		}
 		public async void LoadUrl(string url)
@@ -59,7 +54,7 @@ namespace XamarinStore
 			progress.StartAnimating ();
 			var image = UIImage.FromFile(await t);
 
-			UIView.Animate (.3, 
+			Animate (.3, 
 				() => Image = image,
 				() => progress.StopAnimating ());
 		}

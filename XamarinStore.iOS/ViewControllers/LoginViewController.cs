@@ -20,9 +20,9 @@ namespace XamarinStore.iOS
 		/// instructions are displayed instead of the login screen.</param>
 		public LoginViewController ()
 		{
-			this.Title = "Log in";
+			Title = "Log in";
 			//This hides the back button text when you leave this View Controller
-			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
+			NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
 			AutomaticallyAdjustsScrollViewInsets = false;
 		}
 
@@ -54,17 +54,15 @@ namespace XamarinStore.iOS
 		}
 		private void OnKeyboardNotification (NSNotification notification)
 		{
-			if (IsViewLoaded) {
-
-				//Check if the keyboard is becoming visible
-				bool visible = notification.Name == UIKeyboard.WillShowNotification;
-				UIView.Animate (UIKeyboard.AnimationDurationFromNotification (notification), () => {
-					UIView.SetAnimationCurve ((UIViewAnimationCurve)UIKeyboard.AnimationCurveFromNotification (notification));
-					var frame = UIKeyboard.FrameEndFromNotification (notification);
-					keyboardOffset = visible ? frame.Height : 0; 
-					ViewDidLayoutSubviews ();
-				});
-			}
+		    if (!IsViewLoaded) return;
+		    //Check if the keyboard is becoming visible
+		    var visible = notification.Name == UIKeyboard.WillShowNotification;
+		    UIView.Animate (UIKeyboard.AnimationDurationFromNotification (notification), () => {
+		                                                                                           UIView.SetAnimationCurve ((UIViewAnimationCurve)UIKeyboard.AnimationCurveFromNotification (notification));
+		                                                                                           var frame = UIKeyboard.FrameEndFromNotification (notification);
+		                                                                                           keyboardOffset = visible ? frame.Height : 0; 
+		                                                                                           ViewDidLayoutSubviews ();
+		    });
 		}
 
 

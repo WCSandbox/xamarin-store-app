@@ -2,7 +2,6 @@ using System;
 using MonoTouch.UIKit;
 using MonoTouch.CoreGraphics;
 using System.Drawing;
-using MonoTouch.CoreAnimation;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +18,9 @@ namespace XamarinStore
 
 		public BasketViewController (Order order)
 		{
-			this.Title = "Your Basket";
+			Title = "Your Basket";
 			//This hides the back button text when you leave this View Controller
-			this.NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
+			NavigationItem.BackBarButtonItem = new UIBarButtonItem ("", UIBarButtonItemStyle.Plain, handler: null);
 			TableView.Source = new TableViewSource (this.order = order) {
 				RowDeleted = CheckEmpty,
 			};
@@ -43,7 +42,7 @@ namespace XamarinStore
 				Font = UIFont.BoldSystemFontOfSize (17),
 			};
 			totalAmount.SizeToFit ();
-			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem (totalAmount);
+			NavigationItem.RightBarButtonItem = new UIBarButtonItem (totalAmount);
 			UpdateTotals ();
 		}
 
@@ -79,10 +78,10 @@ namespace XamarinStore
 		protected void CheckEmpty (bool animate)
 		{
 			if (order.Products.Count == 0) {
-				this.View.AddSubview (EmptyCartImageView = new EmptyBasketView () {
+				View.AddSubview (EmptyCartImageView = new EmptyBasketView () {
 					Alpha = animate ? 0f : 1f,
 				});
-				this.View.BringSubviewToFront (EmptyCartImageView);
+				View.BringSubviewToFront (EmptyCartImageView);
 				if (animate)
 					UIView.Animate (.25, () => EmptyCartImageView.Alpha = 1f);
 				return;
@@ -96,9 +95,9 @@ namespace XamarinStore
 
 		class TableViewSource : UITableViewSource
 		{
-			public Action RowDeleted { get; set; }
+			public Action RowDeleted { private get; set; }
 
-			Order order;
+		    readonly Order order;
 
 			public TableViewSource (Order order)
 			{
@@ -132,13 +131,11 @@ namespace XamarinStore
 
 			public override void CommitEditingStyle (UITableView tableView, UITableViewCellEditingStyle editingStyle, MonoTouch.Foundation.NSIndexPath indexPath)
 			{
-				if (editingStyle == UITableViewCellEditingStyle.Delete) {
-					order.Remove (order.Products [indexPath.Row]);
-					tableView.DeleteRows (new MonoTouch.Foundation.NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Fade);
-					if (RowDeleted != null)
-						RowDeleted ();
-				}
-			
+			    if (editingStyle != UITableViewCellEditingStyle.Delete) return;
+			    order.Remove (order.Products [indexPath.Row]);
+			    tableView.DeleteRows (new MonoTouch.Foundation.NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Fade);
+			    if (RowDeleted != null)
+			        RowDeleted ();
 			}
 
 			class ProductCell : UITableViewCell
